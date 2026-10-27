@@ -2,7 +2,7 @@
 
 A focused Kanban board for small teams and solo makers. Flowboard runs on Next.js 15 (App Router) with a SQLite database, optimistic drag-and-drop powered by Zustand, and a shadcn/ui-based design system.
 
-<!-- Screenshot placeholder: drop a `docs/screenshot.png` in and uncomment the line below. -->
+Add a screenshot at `docs/screenshot.png` and reference it here once the app is running locally:
 <!-- ![Flowboard board view](docs/screenshot.png) -->
 
 ## Features
@@ -12,8 +12,9 @@ A focused Kanban board for small teams and solo makers. Flowboard runs on Next.j
 - **Search and filters** by free text, priority, and tag — filters compose and apply instantly without extra requests.
 - **Optimistic updates** with automatic rollback and a toast if a write fails.
 - **Due-date awareness**: overdue and "due today" states are called out on the card.
+- **Keyboard shortcuts**: `/` focuses search, `N` opens a new task, and every drag handle works with the arrow keys.
 - **Polished states**: skeleton loading, per-column empty states, filtered-empty state, and error recovery with retry.
-- **Fully responsive**: three columns on desktop, a snap-scrolling horizontal board on tablet, stacked columns on mobile.
+- **Fully responsive**: three columns on desktop, a horizontally scrollable board on smaller screens.
 - **Typed end to end**: Zod schemas shared by the API and the client, plus a hand-written `Task` model.
 - **Zero external services**: the database is a local SQLite file created and seeded on first run.
 
@@ -27,8 +28,15 @@ A focused Kanban board for small teams and solo makers. Flowboard runs on Next.j
 | Components | Radix UI primitives (`dialog`, `select`, `label`, `slot`), `lucide-react`, `sonner` |
 | State | Zustand 5 (client store, optimistic mutations) |
 | Validation | Zod |
-| Database | SQLite via `better-sqlite3`, WAL mode |
+| Database | SQLite via Node's built-in `node:sqlite`, WAL mode |
 | Drag & drop | `@dnd-kit/core`, `@dnd-kit/sortable` |
+
+## Requirements
+
+- **Node.js 22.13 or newer** — the app uses the built-in `node:sqlite` module, so there is no native addon to compile and no external database service.
+- npm 10 or newer.
+
+Node 22 prints an `ExperimentalWarning` for `node:sqlite` on startup. It is expected and harmless; the API used here (`DatabaseSync`, prepared statements, transactions) is stable in practice.
 
 ## Getting started
 
@@ -126,6 +134,7 @@ All responses are JSON. Errors use `{ "error": string }` with the appropriate st
 | --- | --- | --- | --- |
 | `GET` | `/api/tasks` | – | `{ tasks: Task[] }` |
 | `POST` | `/api/tasks` | `TaskCreateInput` | `201 { task }` |
+| `GET` | `/api/tasks/:id` | – | `{ task }` |
 | `PATCH` | `/api/tasks/:id` | `Partial<TaskCreateInput>` | `{ task }` |
 | `DELETE` | `/api/tasks/:id` | – | `204` |
 | `POST` | `/api/tasks/reorder` | `{ items: { id, status, position }[] }` | `{ tasks: Task[] }` |
