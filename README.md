@@ -2,8 +2,9 @@
 
 A focused Kanban board for small teams and solo makers. Flowboard runs on Next.js 15 (App Router) with a SQLite database, optimistic drag-and-drop powered by Zustand, and a shadcn/ui-based design system.
 
-Add a screenshot at `docs/screenshot.png` and reference it here once the app is running locally:
-<!-- ![Flowboard board view](docs/screenshot.png) -->
+| Desktop | Mobile (dark) |
+| --- | --- |
+| ![Flowboard board on desktop](docs/board-light.png) | ![Flowboard board on mobile](docs/board-mobile-dark.png) |
 
 ## Features
 
